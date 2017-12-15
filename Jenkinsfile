@@ -1,22 +1,12 @@
-pipeline {
-  agent any
-  
-  stages {
-    stage('Build') {
-      steps {
-        echo 'Building..'
-      }
-    }
-    stage('Test') {
-      steps {
-        echo 'Testing..'
-        sh 'whoami'
-      }
-    }
-    stage('Deploy') {
-      steps {
-        echo 'Deploying....'
-      }
-    }
+node {
+  stage('Build') {
+    echo 'Building..'    
+  }
+  stage('Test') {
+    echo 'Testing..'
+    sh 'whoami'
+  }
+  stage('Deploy') {
+    echo 'Deploying....'
   }
 }
