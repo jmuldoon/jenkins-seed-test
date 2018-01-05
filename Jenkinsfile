@@ -11,6 +11,7 @@ node {
     steps { // build step
       maven('-e clean test')
     }
+  }
   
   def project = 'quidryan/aws-sdk-test'
   def branchApi = new URL("https://api.github.com/repos/${project}/branches")
