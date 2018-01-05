@@ -14,8 +14,7 @@ branches.each {
         scm {
           git("git://github.com/${project}.git", branchName)
         }
-        // script(readFileFromWorkspace('Jenkinsfile.groovy'))
-        script('Jenkinsfile.groovy')
+        script('Jenkinsfile')
       }
     }
   }
