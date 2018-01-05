@@ -1,30 +1,16 @@
-job('DSL-Tutorial-1-Test') {
-  scm {
-    git('git://github.com/jenkinsci/job-dsl-plugin.git')
-  }
-  triggers {
-    scm('H/15 * * * *')
-  }
-  steps {
-    shell("echo 'Hello World'")
-  }
-  steps {
-    maven('-e clean test')
+def project = 'jmuldoon/jenkins-seed-test'
+def branchApi = new URL("https://api.github.com/repos/${project}/branches")
+def branches = new groovy.json.JsonSlurper().parse(branchApi.newReader())
+branches.each {
+  def branchName = it.name
+  pipelineJob("${project}-${branchName}".replaceAll('/','-')) {
+    definition {
+      cpsScm {
+        scm {
+          git("git://github.com/${project}.git", branchName)
+        }
+        script(readFileFromWorkspace('Jenkinsfile.groovy'))
+      }
+    }
   }
 }
-
-// def project = 'quidryan/aws-sdk-test'
-// def branchApi = new URL("https://api.github.com/repos/${project}/branches")
-// def branches = new groovy.json.JsonSlurper().parse(branchApi.newReader())
-// branches.each {
-//   def branchName = it.name
-//   job {
-//     name "${project}-${branchName}".replaceAll('/','-')
-//     scm {
-//       git("git://github.com/${project}.git", branchName)
-//     }
-//     steps {
-//       maven("test -Dproject.name=${project}/${branchName}")
-//     }
-//   }
-// }
