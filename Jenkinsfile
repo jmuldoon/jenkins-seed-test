@@ -1,21 +1,9 @@
-def project = 'jmuldoon/jenkins-seed-test'
-def branchApi = new URL("https://api.github.com/repos/${project}/branches")
-def branches = new groovy.json.JsonSlurper().parse(branchApi.newReader())
-branches.each {
-  def branchName = it.name
-  pipelineJob("${project}-${branchName}".replaceAll('/','-')) {
-    description("Pipeline => $project; branch=> $branchName")
-    triggers {
-      githubPush()
-    }
-    definition {
-      cpsScm {
-        scm {
-          git("git://github.com/${project}.git", branchName)
-        }
-        // script(readFileFromWorkspace('Jenkinsfile.groovy'))
-        script('Jenkinsfile.groovy')
-      }
-    }
-  }
-}
+import javaposse.jobdsl.dsl.DslScriptLoader
+import javaposse.jobdsl.plugin.JenkinsJobManagement
+
+def jobDslScript = new File("#{node['jenkins']['master']['home']}/seed-github.groovy")
+def workspace = new File('.')
+
+def jobManagement = new JenkinsJobManagement(System.out, [:], workspace)
+
+new DslScriptLoader(jobManagement).runScript(jobDslScript.text)
