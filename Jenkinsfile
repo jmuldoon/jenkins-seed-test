@@ -1,15 +1,13 @@
 node {
-  job {
-    using 'TMPL-test'
-    name 'PROJ-unit-tests'
+  job('DSL-Tutorial-1-Test') {
     scm {
-      git('https://github.com/Stackato-Apps/pet-store')
+        git('git://github.com/quidryan/aws-sdk-test.git')
     }
     triggers {
-      scm('*/15 * * * *')
+        scm('H/15 * * * *')
     }
-    steps { // build step
-      maven('-e clean test')
+    steps {
+        maven('-e clean test')
     }
   }
   
