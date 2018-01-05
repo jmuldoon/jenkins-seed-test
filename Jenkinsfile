@@ -3,9 +3,8 @@ def branchApi = new URL("https://api.github.com/repos/${project}/branches")
 def branches = new groovy.json.JsonSlurper().parse(branchApi.newReader())
 branches.each {
   def branchName = it.name
-  description("Pipeline => $project; branch=> $branchName")
-
   pipelineJob("${project}-${branchName}".replaceAll('/','-')) {
+    description("Pipeline => $project; branch=> $branchName")
     triggers {
       githubPush()
     }
