@@ -1,5 +1,4 @@
 node {
-  node {
   job {
     using 'TMPL-test'
     name 'PROJ-unit-tests'
@@ -12,7 +11,6 @@ node {
     steps { // build step
       maven('-e clean test')
     }
-  }
   
   def project = 'quidryan/aws-sdk-test'
   def branchApi = new URL("https://api.github.com/repos/${project}/branches")
@@ -30,19 +28,6 @@ node {
     }
   }
   
-  stage('Build') {
-    echo 'Building..'    
-  }
-  stage('Test') {
-    echo 'Testing..'
-    sh 'whoami'
-  }
-  stage('Deploy') {
-    echo 'Deploying....'
-  }
-}
-
-
   stage('Build') {
     echo 'Building..'    
   }
