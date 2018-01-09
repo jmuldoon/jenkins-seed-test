@@ -1,4 +1,4 @@
-node ('docker') {
+node ('jenkins-slave-cloud') {
   stage('Build') {
     echo 'Building..'    
   }
